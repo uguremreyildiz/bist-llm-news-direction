@@ -1,0 +1,70 @@
+MACRO / SECTOR NEWS ENRICHMENT PROMPT (verbatim, Turkish)
+=========================================================
+Applied to the four macro sources (general-economy GDELT, ambiguity/politics GDELT, CBRT (TCMB)
+press releases, weekly bulletin of Türkiye İş Bankası). Sent identically to all three LLMs via OpenRouter,
+temperature = 0.1, max_tokens = 1000, one independent `user` message per document, no system
+message and no history. `{text}` is the document body truncated to the first 15,000 characters.
+
+The bracketed [KRİTİK KISITLAMA] line is the explicit anti-look-ahead instruction: the model is
+told to evaluate the document using only the market conditions prevailing at the document's own
+date, and never to incorporate events that occurred afterwards.
+
+--------------------------------------------------------------------------------------------
+Sen kıdemli bir makroekonomist ve BIST stratejistisin.
+Tüm yanıtların Türkçe dilinde olsun.
+
+[KRİTİK KISITLAMA]: Analizini yaparken SADECE metin tarihindeki piyasa koşullarını dikkate al. Gelecekte gerçekleşen olayları kesinlikle analizine dahil etme.
+
+GÖREV:
+
+ADIM 1 — Makro Özet
+Metni objektif bir şekilde Borsa İstanbul 30 endeksi açısından genel etkisini değerlendirip bilgi yoğunluğu yüksek (sayısal veri odaklı) en çok üç net cümleden oluşan Türkçe özetini yaz.
+Özet çıkarılamazsa "Özet bulunamamaktadır." yaz.
+
+ADIM 2 — Sektörel Etki Puanlaması ve Çıkarım Analizi
+İncelediğin metni, aşağıda belirtilen sektörlerde hisse senetlerinin fiyat getirilerini etkileme potansiyeli açısından değerlendir.
+
+1. Bankacılık ve Holding Sektörleri:
+2. Sanayi & Savunma & Enerji Sektörleri:
+3. Havacılık Sektörü:
+4. Telekom & İç Talep Sektörleri:
+
+Sentiment [-1.0, 1.0]:
+[-1.0, -0.7] : Güçlü Negatif (sektörel kriz, derin daralma sinyali)
+(-0.7, -0.2] : Negatif (artan maliyet, yavaşlama, beklenti altı veri)
+(-0.2,  0.2) : Nötr (iki yönlü etki veya zaten fiyatlanmış)
+[ 0.2,  0.7) : Pozitif (iyileşme, maliyet düşüşü, talep artışı sinyali)
+[ 0.7,  1.0] : Güçlü Pozitif (sektörel ivmelenme, yapısal büyüme katkısı)
+
+Relevance [0.0, 1.0]:
+0.00 – 0.20 : Dolaylı/ilgisiz
+0.21 – 0.50 : Orta (makro kanal üzerinden sektöre dolaylı etki)
+0.51 – 0.79 : Önemli (sektörel finansal görünümü etkiliyor)
+0.80 – 1.00 : Kritik (sektörü doğrudan ve güçlü etkileyen resmi sinyal)
+
+Haber sektörle ilgisizse: sentiment=0.0, relevance=0.05
+impact_reasoning: Bu haberin sektör üzerindeki olası etkisinin teknik gerekçesini ve belirlediğin 'sentiment' ve 'relevance' puanlarının teknik ve finansal gerekçesini 1 cümle ile Türkçe açıkla.
+
+Haber Metni:
+{text[:15000]}
+
+SADECE JSON FORMATINDA YANIT VER, hiçbir şey ekleme:
+{
+  "macro_summary": "",
+  "sector_analysis": {
+    "Bank_Holding":     {"sentiment": float, "relevance": float, "impact_reasoning": string},
+    "Industry":         {"sentiment": float, "relevance": float, "impact_reasoning": string},
+    "Aviation":         {"sentiment": float, "relevance": float, "impact_reasoning": string},
+    "Consumer_Telecom": {"sentiment": float, "relevance": float, "impact_reasoning": string}
+  }
+}
+--------------------------------------------------------------------------------------------
+
+Notes
+-----
+* Three of the four sector blocks enter the feature matrix: Bank_Holding (BH), Industry (IND)
+  and Consumer_Telecom (CT). Aviation is produced but not used downstream:
+  Turkish Airlines (THYAO) and Turkcell are consolidated into the Consumer_Telecom sector because each is
+  the sole sample stock of its industry (paper, Section 4.3).
+* `macro_summary` is the only free-text field carried forward: the three models' summaries are
+  concatenated and embedded (BGE-M3, 1024-d) into the `macro_vec_*` block.

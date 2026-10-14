@@ -1,0 +1,24 @@
+{
+  "n_stock_weeks": 1152,
+  "n_weeks": 144,
+  "correct": 620,
+  "intra_week_correlation": 0.206,
+  "accuracy": 0.5382,
+  "accuracy_ci95": [
+    0.487,
+    0.5877
+  ],
+  "macro_f1": 0.5364,
+  "macro_f1_ci95": [
+    0.4861,
+    0.5836
+  ],
+  "p_binomial": 0.0052,
+  "p_block_bootstrap": 0.0746,
+  "p_block_bootstrap_by_block_length": {
+    "4": 0.0674,
+    "12": 0.085
+  },
+  "block_length": 8,
+  "n_boot": 5000
+}

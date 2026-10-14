@@ -1,0 +1,5 @@
+strategy,sharpe,cum_return
+lo_net,1.5958,1.9681
+ls_net,1.0501,1.3971
+buyhold,1.264,2.6788
+momentum,0.8181,0.7369

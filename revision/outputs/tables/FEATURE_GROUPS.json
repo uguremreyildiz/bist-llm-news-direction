@@ -1,0 +1,90 @@
+{
+  "PRICE": [
+    "log_return",
+    "ret_lag1",
+    "ret_lag2",
+    "ret_lag3",
+    "ret_lag5",
+    "ret_ma3",
+    "ret_ma5",
+    "ret_std5",
+    "ret_momentum"
+  ],
+  "MACRO_NUM": [
+    "USDTRY_log_return",
+    "EURTRY_log_return",
+    "BRENT_log_return",
+    "GOLD_log_return",
+    "VIX_log_change",
+    "USDTRY_log_return_lag1",
+    "EURTRY_log_return_lag1",
+    "BRENT_log_return_lag1",
+    "GOLD_log_return_lag1",
+    "VIX_log_change_lag1",
+    "USDTRY_ma3",
+    "VIX_ma3"
+  ],
+  "SECTOR_ID": [
+    "stock_sector_BH",
+    "stock_sector_IND",
+    "stock_sector_CT"
+  ],
+  "CROSS": [
+    "stock_macro_alignment"
+  ],
+  "SCALAR_FIRM": [
+    "has_news",
+    "weighted_sentiment",
+    "min_sent",
+    "max_sent",
+    "std_sent",
+    "avg_std_sent",
+    "max_std_sent",
+    "sent_lag1",
+    "sent_lag3",
+    "sent_lag5",
+    "sent_ma3",
+    "sent_ma10",
+    "sent_momentum",
+    "sent_volatility",
+    "news_count",
+    "days_since_news",
+    "news_burst",
+    "sent_price_divergence",
+    "sent_price_agree",
+    "rel_mean",
+    "rel_max",
+    "cat_Dolaylı",
+    "cat_Finansal",
+    "cat_Kurumsal",
+    "cat_Mixed",
+    "cat_Operasyonel",
+    "stock_emb_norm",
+    "stock_emb_norm_z",
+    "stock_cos_lag1",
+    "stock_cos_lag3"
+  ],
+  "SCALAR_MACRO": [
+    "macro_weighted_sentiment",
+    "macro_min_sent",
+    "macro_max_sent",
+    "macro_std_sent",
+    "macro_rel_mean",
+    "macro_rel_max",
+    "macro_sent_ma3",
+    "macro_sent_momentum",
+    "macro_emb_norm",
+    "macro_cos_lag1",
+    "macro_cos_lag3"
+  ],
+  "EMB_FIRM": "vec_bge_m3_0..1023",
+  "EMB_MACRO": "macro_vec_0..1023",
+  "_counts": {
+    "PRICE": 9,
+    "MACRO_NUM": 12,
+    "SECTOR_ID": 3,
+    "CROSS": 1,
+    "SCALAR_FIRM": 30,
+    "SCALAR_MACRO": 11
+  }
+}

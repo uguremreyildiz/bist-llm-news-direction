@@ -1,0 +1,30 @@
+{
+  "n_weeks": 393,
+  "boundary_index": 235,
+  "boundary_week": "2022-07-25",
+  "candidate_folds": 19,
+  "inner_folds": 6,
+  "outer_folds": 12,
+  "discarded_straddling_folds": 1,
+  "inner_train_start": "2018-01-01",
+  "last_inner_train_end": "2022-02-21",
+  "last_inner_test_end": "2022-05-23",
+  "first_outer_train_end": "2022-08-22",
+  "first_outer_test_start": "2022-08-29",
+  "last_outer_test_end": "2025-06-16",
+  "buffer_panel_weeks": 12,
+  "buffer_span": [
+    "2022-05-30",
+    "2022-08-22"
+  ],
+  "buffer_calendar_weeks": 14,
+  "panel_weeks_missing_vs_monday_grid": 6,
+  "test_coverage": {
+    "never_tested_initial_window": "2018-01-01..2020-12-21 (156 weeks)",
+    "inner_test_block_weeks": 72,
+    "outer_test_block_weeks": 144,
+    "unused_tail_weeks": 9
+  },
+  "total_outer_test_rows": 1152,
+  "selection_scheme": "configuration and hyperparameters chosen once on the 6 inner folds, then frozen; the 12 outer folds were never used for any selection decision"
+}

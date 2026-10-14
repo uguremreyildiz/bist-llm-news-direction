@@ -1,0 +1,58 @@
+STOCK-LEVEL NEWS ENRICHMENT PROMPT (verbatim, Turkish)
+======================================================
+Sent identically to all three LLMs (openai/gpt-4.1-nano, meta-llama/llama-3.3-70b-instruct,
+google/gemma-4-26b-a4b-it) via OpenRouter, temperature = 0.1, max_tokens = 1000.
+
+Each article is sent as a SINGLE, INDEPENDENT `user` message. There is no system message and
+no conversation history, so no information from any other article -- past or future -- can enter
+the model's context. `{ticker}` is the stock code; `{text}` is the article body truncated to the
+first 5,000 characters.
+
+--------------------------------------------------------------------------------------------
+Sen Borsa İstanbul (BIST) piyasasında uzman, kıdemli bir finansal analiz ve hisse senedi değerleme uzmanısın.
+Görevin, aşağıda paylaşılan haberi {ticker} hissesi yatırımcısı perspektifiyle objektif ve rasyonel şekilde analiz etmektir.
+Tüm yanıtların Türkçe olsun.
+
+ADIM 1: Kategorizasyon
+Aşağıdaki kategorilerden yalnızca haberin ana odağını temsil eden en baskın olan tek kategoriyi seç:
+- "Finansal": Şirketin mali yapısını, finansal tabloları, kar/zarar performansı, temettü verimliliğini, vergi ve finansman yükü gibi gelişmeler.
+- "Kurumsal": Şirketin uzun vadeli kaderini belirleyen yatırımlar, ortaklık yapısı değişimleri, birleşme ve satınalma gibi stratejiler, yönetim kurulu gelişmeleri, sermaye yapısı, grev ve dava süreçleri ile regülasyonlar gibi güncellemelerini içerir.
+- "Operasyonel": Şirketin doğrudan iş süreçleri; üretim kapasitesi, pazar payı, satış hacmi, yeni ürün/kampanya lansmanı ve duyuruları, kapasite değişimi, sektörel haberler (şirketi doğrudan etkileyen) gibi bilgileri içerir.
+- "Dolaylı": {ticker} isminin sadece alakasız bir listede, adres tarifinde, sponsorluk/spor kulübü/vakıf bağlamında, yan cümle içinde geçtiği önemsiz durumlar ve dolaylı değinmeleri veya haberin ana konusunun şirketle doğrudan ilgisinin olmadığı durumları içerir.
+
+ADIM 2: Alaka Düzeyi (Relevance) Skalası
+Haberin {ticker} öz sermaye değeri üzerindeki potansiyel etki gücünü puanla:
+0.00 - 0.20: Önemsiz (Hisse fiyatını etkilemesi beklenmez, adım 1'deki kategori "Dolaylı" ise bu alaka düzeyine aittir.)
+0.21 - 0.50: Orta Derece (Sadece belirli bir operasyonu etkiler)
+0.51 - 0.79: Önemli (Finansal görünümü veya yatırımcı algısını değiştirir)
+0.80 - 1.00: Kritik (Hissenin uzun vadeli değerlemesini veya stratejisini doğrudan değiştirir)
+
+ADIM 3: Duygu (Sentiment) Kalibrasyonu
+Haberin finansal etkisinin yönünü belirle:
+[-1.0 ile -0.7]: Güçlü Negatif (Büyük kayıp, kriz, operasyonel durma veya skandal.)
+(-0.7 ile -0.2]: Negatif (Olumsuz gelişme, beklenti altı veri, artan maliyetler veya hafifleşen büyüme sinyali.)
+(-0.2 ile 0.2): Nötr (Bilgi verici, etkisi iki yönlü veya zaten fiyatlanmış.)
+[0.2 ile 0.7): Pozitif (İyileşme, verimlilik artışı, yeni pazar/satış veya beklenti üstü büyüme sinyali.)
+[0.7 ile 1.0]: Güçlü Pozitif (Stratejik atılım, rekor kar, devasa kontrat veya yapısal büyüme.)
+
+Kategori "Dolaylı" ise Duygu (Sentiment) 0.0, Alaka Düzeyi (Relevance) 0.05 ver.
+
+Haber Metni:
+{text[:5000]}
+
+SADECE JSON FORMATINDA YANIT VER, hiçbir şey ekleme:
+{
+  "category": "Seçilen Kategori",
+  "sentiment": float,
+  "relevance": float,
+  "core_signal": "Kategori Dolaylı ise 1-2 cümle haberin genel özeti. Diğer kategorilerde {ticker} odaklı, haberdeki abartı veya yanlış yönlendirici ifadelerden bağımsız olarak, 4-5 net cümleden oluşan haberin Türkçe özetini yaz.",
+  "impact_reasoning": "Bu haberin {ticker} hisse fiyatı ve yatırımcı kararı üzerindeki olası etkisinin teknik gerekçesini yaz. Belirlediğin sentiment ve relevance puanlarının teknik ve finansal gerekçesini açıkla. Bu haber neden hisse fiyatına yansımalı veya yansımamalı sorusunu cevapla, Türkçe yaz."
+}
+--------------------------------------------------------------------------------------------
+
+Notes
+-----
+* `core_signal` is the only free-text field carried forward: the three models' `core_signal`
+  strings are concatenated and embedded (BGE-M3, 1024-d). `impact_reasoning` is discarded
+  after inspection and never enters the feature matrix.
+* Articles shorter than 50 characters are skipped without an LLM call.

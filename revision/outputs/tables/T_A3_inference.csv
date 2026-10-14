@@ -1,0 +1,4 @@
+statistic,method,estimate,ci_low,ci_high,p_one_sided
+accuracy,"exact binomial (independence, naive reference)",0.5382,,,0.0052
+accuracy,"moving-block bootstrap over weeks (L=8, B=5000)",0.5382,0.487,0.5877,0.0746
+macro_f1,"moving-block bootstrap over weeks (L=8, B=5000)",0.5364,0.4861,0.5836,

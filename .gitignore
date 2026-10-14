@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Credentials — never commit
+.env
+*.key
+*_secret*
+
+# Raw news archive and intermediate LLM output (not redistributable)
+raw/
+enriched/
+weekly/
+*.jsonl
+
+# OS
+.DS_Store
+.idea/

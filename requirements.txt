@@ -1,0 +1,36 @@
+# Exact versions of the environment in which every number reported in the paper was produced.
+# Python 3.10.19 (macOS 15.5, arm64).
+#
+# Only the first block is needed to run `reproduce.py`.
+# ---------------------------------------------------------------------------
+# Core: required by reproduce.py
+numpy==2.2.6
+pandas==2.3.3
+pyarrow==23.0.1
+scipy==1.15.3
+scikit-learn==1.7.2
+
+# ---------------------------------------------------------------------------
+# Full benchmark (grid over 6 encoders x 3 reducers x 4 classifiers)
+lightgbm==4.6.0
+optuna==4.9.0
+umap-learn==0.5.12
+torch==2.10.0
+statsmodels==0.14.6
+
+# ---------------------------------------------------------------------------
+# Interpretability and figures
+shap==0.49.1
+matplotlib==3.10.8
+
+# ---------------------------------------------------------------------------
+# Data-construction pipeline (pipeline/01-03; not needed for reproduction)
+requests==2.32.5
+trafilatura==1.7.0
+newspaper3k==0.2.8
+openai==2.24.0
+sentence-transformers==5.2.3
+transformers==5.2.0
+tqdm==4.67.3
+joblib==1.5.3
+yfinance==1.2.0

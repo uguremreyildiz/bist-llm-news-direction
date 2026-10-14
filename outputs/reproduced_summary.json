@@ -1,0 +1,11 @@
+{
+  "n_oos": 1152,
+  "accuracy": 0.5382,
+  "f1_macro": 0.5364,
+  "roc_auc": 0.5467,
+  "p_vs_random": 0.005169252486670299,
+  "sharpe_lo_net": 1.5958,
+  "sharpe_ls_net": 1.0501,
+  "sharpe_buyhold": 1.264,
+  "sharpe_momentum": 0.8181
+}
